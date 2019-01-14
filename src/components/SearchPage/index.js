@@ -130,7 +130,20 @@ class SearchPage extends Component {
   }
 
   useMyLocationButtonPress = ()=>{
-    alert("Request Recieved!!")
+    navigator.geolocation.getCurrentPosition((loc) => {
+      // alert('The location in lat lon format is: [' + loc.coords.latitude + ',' + loc.coords.longitude + ']');
+      // this.setState({lat: loc.coords.latitude, lng: loc.coords.longitude});
+      Geocode.fromLatLng(loc.coords.latitude, loc.coords.longitude).then(
+        response => {
+          const address = response.results[0].formatted_address;
+          this.setState({lat: loc.coords.latitude, lng: loc.coords.longitude, address: address});
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    })
+    this.searchField.value = '';
   }
 
   render() {
@@ -168,7 +181,7 @@ class SearchPage extends Component {
                 }
               </div>
               <div className="RightSide">
-                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}> 
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '5px', marginBottom: '5px'}}> 
                   <div style={{alignItems: 'center'}}>
                     <Button style={{marginTop: '10px'}} onClick = {this.useMyLocationButtonPress}>
                        <MdLocationOn />
@@ -176,6 +189,7 @@ class SearchPage extends Component {
                     </Button>
                     <TextField
                       id="outlined-search"
+                      inputRef={x => this.searchField = x}
                       label="Search food in your area"
                       type="search"
                       className= ''
