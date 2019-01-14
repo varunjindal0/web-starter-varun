@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
+// console.log("========================================= " + props.currLat + props.currLng);
+//   	console.log("=========================================" + props.data)
+
+
+
 class Map extends Component {
   render(){
+  	
     const GoogleMapExample = withGoogleMap(props => (
-      <GoogleMap
+        <GoogleMap
         defaultCenter = { { lat: props.currLat ? props.currLat :41.881832, lng: props.currLng ? props.currLng : -87.623177 } }
         defaultZoom = { 15 }
       >
-      	<Marker opacity = {0.5} position = {{lat: props.currLat ? props.currLat :41.881832, lng: props.currLng ? props.currLng : -87.623177}} />
+      <Marker  position = {{lat: props.currLat ? props.currLat :41.881832, lng: props.currLng ? props.currLng : -87.623177}} />
       	{
+
       		props.data.map(r=>{
-      			return <Marker position={{ lat: r.lat, lng: r.lon}}/>
+      			return <Marker opacity = {0.5} position={{ lat: r.lat, lng: r.lon}}/>
       		})
       	}
 
@@ -23,6 +30,8 @@ class Map extends Component {
           containerElement={ <div style={{ height: `100vh`, width: '100%' }} /> }
           mapElement={ <div style={{ height: `100%` }} /> }
           data = {this.props.data}
+          currLat = {this.props.currLat}
+          currLng = {this.props.currLng}
         />
       </div>
    );

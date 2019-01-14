@@ -10,6 +10,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia'
 
@@ -22,7 +23,7 @@ import { Link } from 'react-router-dom';
 import Map from '../Map.js'
 
 import Geocode from "react-geocode";
-Geocode.setApiKey("AIzaSyCT-azrB3ElnMDUUNOuGIDik3alPSQ-Mg4");
+Geocode.setApiKey("AIzaSyAfiscRoTi4EHAno__kZRqZ_B8FFLZd7Ck");
 Geocode.enableDebug();
 
 // <Typography color="textSecondary" gutterBottom>
@@ -51,7 +52,7 @@ class MyCard extends Component {
               <IconContext.Provider value={{ color: "blue"}}>
                 <MdLocationOn />
               </IconContext.Provider>
-             <Link style = {{textDecoration: 'none'}} to={{ pathname: ROUTES.REST + '/' + this.props.data.id }}> {this.props.data.title ? this.props.data.title : 'Washoe Public House'} </Link>
+             <Link style = {{textDecoration: 'none', color: 'black'}} to={{ pathname: ROUTES.REST + '/' + this.props.data.id }}> {this.props.data.title ? this.props.data.title : 'Washoe Public House'} </Link>
             </Typography>
             <Typography component="p" style={{color: 'lighblue'}}>
               <span style={{fontSize: '12px', color: 'blue'}}>{this.props.data.cuisine ? this.props.data.cuisine : 'American Style Food'}</span>
@@ -97,18 +98,38 @@ class SearchPage extends Component {
     super(props);
     this.state = {address: 'chicago', lat: null, lng: null}
   }
-  componentDidMount(){
-    Geocode.fromAddress(this.state.address).then(
+  // componentDidMount(){
+  //   Geocode.fromAddress(this.state.address).then(
+  //     response => {
+  //       const { lat, lng } = response.results[0].geometry.location;
+  //       console.log("************************************************ " + lat, lng);
+  //       this.setState({lat: lat, lng: lng});
+  //     },
+  //     error => {
+  //       console.error(error);
+  //     }
+  //   )
+  // }
+
+  catchReturnForLocationSearch = (e)=>{
+    if (e.charCode == 13) {
+        // alert('Enter... (KeyPress, use charCode)' + e.target.value);
+      const newAddress = e.target.value;
+      Geocode.fromAddress(e.target.value).then(
       response => {
         const { lat, lng } = response.results[0].geometry.location;
         console.log("************************************************ " + lat, lng);
-        this.setState({lat: lat, lng: lng});
+        this.setState({address: newAddress, lat: lat, lng: lng})
       },
       error => {
-        console.error(error);
+        console.error("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^: " + error);
       }
     )
+
+
+      }
   }
+
   render() {
     
     return (
@@ -139,12 +160,32 @@ class SearchPage extends Component {
               <div className="LeftSide">
                 {
                   data.search_restaurants.results.map((r) => {
-                    return <MyCard currLat={this.state.lat} currLng={this.state.lng} data={r} />;
+                    return <MyCard data={r} />;
                   })
                 }
               </div>
               <div className="RightSide">
-                <Map data = {data.search_restaurants.results} />
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}> 
+                  <div style={{alignItems: 'center'}}>
+                    <Button>
+                       <MdLocationOn />
+                       Use my location 
+                    </Button>
+                    <TextField
+                      id="outlined-search"
+                      label="Search food in your area"
+                      type="search"
+                      className= ''
+                      variant="outlined"
+                      onKeyPress={this.catchReturnForLocationSearch}
+                    />
+                  </div>
+                  <div>
+                    <Button> Login </Button>
+                    <Button> SignUp </Button>
+                  </div>
+                </div>
+                <Map currLat={this.state.lat} currLng={this.state.lng} data = {data.search_restaurants.results} />
               </div>
             </div>  
             );
