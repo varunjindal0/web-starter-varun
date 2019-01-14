@@ -1,0 +1,29 @@
+.Card {
+	margin: 10px;
+	background-color: lightgreen;
+	margin-top: 20px;
+	border-radius: 30px;
+	display: flex;
+	min-width: 350px;
+}
+.CardContent {
+/*	background-color: lightblue;
+*/
+	flex: 2;
+}
+
+.CardMedia {
+	flex: 1;
+}
+
+.FullScreen {
+	display: flex;
+}
+
+.LeftSide {
+	flex: 1;
+}
+
+.RightSide {
+	flex: 3;
+}
