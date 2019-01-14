@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 
 import SearchPage from './components/SearchPage';
 import RestPage from './components/RestPage';
@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <div className="app">
         <Switch>
-          <Route exact path={ROUTES.SEARCH} component={SearchPage} />
+          <Route exact path={ROUTES.SEARCH}  component={SearchPage} />
           <Route exact path={ROUTES.REST + '/:id'} component={RestPage} />
         </Switch>
       </div>

@@ -44,7 +44,7 @@ ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <BrowserRouter>
       <ApolloProvider client={client}>
-        <App />
+        <App/>
       </ApolloProvider>
     </BrowserRouter>
   </MuiThemeProvider>,

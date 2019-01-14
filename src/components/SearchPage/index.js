@@ -16,6 +16,9 @@ import CardMedia from '@material-ui/core/CardMedia'
 import { IconContext } from 'react-icons'
 import { MdDirectionsWalk, MdLocationOn, MdStar, MdFiberManualRecord } from 'react-icons/md';
 
+import * as ROUTES from '../../utils/routes';
+import { Link } from 'react-router-dom';
+
 // <Typography color="textSecondary" gutterBottom>
 //               Word of the Day
 //             </Typography>
@@ -28,6 +31,11 @@ import { MdDirectionsWalk, MdLocationOn, MdStar, MdFiberManualRecord } from 'rea
 
 
 class MyCard extends Component {
+
+  handleTitleClick = ()=>{
+        this.props.history.push(ROUTES.REST + '/' + this.props.data.id)
+  }
+
   render(){
     return (
       <div >
@@ -37,7 +45,7 @@ class MyCard extends Component {
               <IconContext.Provider value={{ color: "blue"}}>
                 <MdLocationOn />
               </IconContext.Provider>
-             <span style={{fontSize: 'fit-width'}}> {this.props.data.title ? this.props.data.title : 'Washoe Public House'} </span>
+             <Link style = {{textDecoration: 'none'}} to={{ pathname: ROUTES.REST + '/' + this.props.data.id }}> {this.props.data.title ? this.props.data.title : 'Washoe Public House'} </Link>
             </Typography>
             <Typography component="p" style={{color: 'lighblue'}}>
               <span style={{fontSize: '12px', color: 'blue'}}>{this.props.data.cuisine ? this.props.data.cuisine : 'American Style Food'}</span>
