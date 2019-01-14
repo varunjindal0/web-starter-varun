@@ -120,14 +120,17 @@ class SearchPage extends Component {
         const { lat, lng } = response.results[0].geometry.location;
         console.log("************************************************ " + lat, lng);
         this.setState({address: newAddress, lat: lat, lng: lng})
-      },
+        },
       error => {
         console.error("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^: " + error);
       }
     )
-
-
+      e.target.value = '';
       }
+  }
+
+  useMyLocationButtonPress = ()=>{
+    alert("Request Recieved!!")
   }
 
   render() {
@@ -167,7 +170,7 @@ class SearchPage extends Component {
               <div className="RightSide">
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}> 
                   <div style={{alignItems: 'center'}}>
-                    <Button>
+                    <Button style={{marginTop: '10px'}} onClick = {this.useMyLocationButtonPress}>
                        <MdLocationOn />
                        Use my location 
                     </Button>
