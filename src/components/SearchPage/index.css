@@ -1,10 +1,11 @@
 .Card {
-	margin: 10px;
+	margin: auto;
 	background-color: lightgreen;
 	margin-top: 20px;
 	border-radius: 30px;
 	display: flex;
-	min-width: 350px;
+	width: 350px;
+	margin-bottom: 5px
 }
 .CardContent {
 /*	background-color: lightblue;
@@ -21,9 +22,20 @@
 }
 
 .LeftSide {
-	flex: 1;
+	flex: 1.2;
+	overflow: auto;
+	padding-right: 10px;
+	padding-left: 10px
 }
 
 .RightSide {
 	flex: 3;
+/*	position: absolute;
+*/
+	overflow: hidden;
+
+}
+
+@media screen and (max-width: 800px) {
+	.RightSide{ display:none; }
 }

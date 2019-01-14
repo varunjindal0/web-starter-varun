@@ -19,6 +19,12 @@ import { MdDirectionsWalk, MdLocationOn, MdStar, MdFiberManualRecord } from 'rea
 import * as ROUTES from '../../utils/routes';
 import { Link } from 'react-router-dom';
 
+import Map from '../Map.js'
+
+import Geocode from "react-geocode";
+Geocode.setApiKey("AIzaSyCT-azrB3ElnMDUUNOuGIDik3alPSQ-Mg4");
+Geocode.enableDebug();
+
 // <Typography color="textSecondary" gutterBottom>
 //               Word of the Day
 //             </Typography>
@@ -58,12 +64,12 @@ class MyCard extends Component {
           <img
             className= 'CardMedia'
             width="60"
-            height = '110'
+            height = '128'
             src={this.props.data.images ? this.props.data.images[0] : 'https://hips.hearstapps.com/del.h-cdn.co/assets/16/21/1464036871-delish-summer-salads-chicken-fajita.jpg'}
             alt = "No Image Available"
           />            
         </Card>
-        <div style={{fontSize: '14px', color: 'blue', marginLeft: '10px', display: 'flex', justifyContent: 'space-between', marginRight: '15px'}}>
+        <div style={{fontSize: '14px', color: 'blue', width: '350px', margin: 'auto', display: 'flex', justifyContent: 'space-between'}}>
           <div>
           {this.props.data.open_closed ? this.props.data.open_closed : 'Open'}
           <span>{" "}</span>
@@ -89,9 +95,22 @@ class MyCard extends Component {
 class SearchPage extends Component {
   constructor(props){
     super(props);
-    this.state = {address: 'chicago'}
+    this.state = {address: 'chicago', lat: null, lng: null}
+  }
+  componentDidMount(){
+    Geocode.fromAddress(this.state.address).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        console.log("************************************************ " + lat, lng);
+        this.setState({lat: lat, lng: lng});
+      },
+      error => {
+        console.error(error);
+      }
+    )
   }
   render() {
+    
     return (
       // Variables can be either lat and lon OR address
       <Query
@@ -120,11 +139,12 @@ class SearchPage extends Component {
               <div className="LeftSide">
                 {
                   data.search_restaurants.results.map((r) => {
-                    return <MyCard data={r} />;
+                    return <MyCard currLat={this.state.lat} currLng={this.state.lng} data={r} />;
                   })
                 }
               </div>
               <div className="RightSide">
+                <Map data = {data.search_restaurants.results} />
               </div>
             </div>  
             );
