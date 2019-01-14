@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
-// console.log("========================================= " + props.currLat + props.currLng);
-//   	console.log("=========================================" + props.data)
-
-
-
 class Map extends Component {
   render(){
   	

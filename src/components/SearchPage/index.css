@@ -1,6 +1,5 @@
 .Card {
 	margin: auto;
-	background-color: lightgreen;
 	margin-top: 20px;
 	border-radius: 30px;
 	display: flex;
@@ -8,8 +7,6 @@
 	margin-bottom: 5px
 }
 .CardContent {
-/*	background-color: lightblue;
-*/
 	flex: 2;
 }
 
@@ -30,12 +27,19 @@
 
 .RightSide {
 	flex: 3;
-/*	position: absolute;
-*/
 	overflow: hidden;
+}
 
+.LeftSideOptions {
+	padding-top: 5px;
+	display: flex;
+	justify-content: center;
 }
 
 @media screen and (max-width: 800px) {
-	.RightSide{ display:none; }
+	.RightSide{ display: none; }
+}
+
+@media screen and (min-width: 800px) {
+	.LeftSideOptions{ display: none; }
 }

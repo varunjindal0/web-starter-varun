@@ -23,19 +23,8 @@ import { Link } from 'react-router-dom';
 import Map from '../Map.js'
 
 import Geocode from "react-geocode";
-Geocode.setApiKey("AIzaSyAfiscRoTi4EHAno__kZRqZ_B8FFLZd7Ck");
+Geocode.setApiKey("AIzaSyAfiscRoTi4EHAno__kZRqZ_B8FFLZd7Ck");             // Not using environment variablees for your convenience
 Geocode.enableDebug();
-
-// <Typography color="textSecondary" gutterBottom>
-//               Word of the Day
-//             </Typography>
-//             <Typography color="textSecondary">
-//               adjective
-//             </Typography>
-
- //         <img src={this.props.data.images ? this.props.data.images[0]: ''} alt="Smiley face" />
-
-
 
 class MyCard extends Component {
 
@@ -72,14 +61,14 @@ class MyCard extends Component {
         </Card>
         <div style={{fontSize: '14px', color: 'blue', width: '350px', margin: 'auto', display: 'flex', justifyContent: 'space-between'}}>
           <div>
-          {this.props.data.open_closed ? this.props.data.open_closed : 'Open'}
-          <span>{" "}</span>
-          <IconContext.Provider value={{ color: "blue", className: "global-class-name", size: '0.5em'  }}>
-              <MdFiberManualRecord />
-           </IconContext.Provider>
-           <span>{" "}</span>
-           {this.props.data.distance ? Math.round( Number(this.props.data.distance) * 10 ) / 10 + " miles away" : 'Nearby'}
-        </div>
+            {this.props.data.open_closed ? this.props.data.open_closed : 'Open'}
+            <span>{" "}</span>
+            <IconContext.Provider value={{ color: "blue", className: "global-class-name", size: '0.5em'  }}>
+                <MdFiberManualRecord />
+             </IconContext.Provider>
+             <span>{" "}</span>
+             {this.props.data.distance ? Math.round( Number(this.props.data.distance) * 10 ) / 10 + " miles away" : 'Nearby'}
+          </div>
          <div>
           <MdDirectionsWalk />
           <span style={{color: 'black'}}>{" " + this.props.data.distance ? Math.round( Number(this.props.data.distance) * 10 ) : 'Around 10'}<span style={{fontSize: '8px'}}>min</span></span>
@@ -98,19 +87,6 @@ class SearchPage extends Component {
     super(props);
     this.state = {address: 'chicago', lat: null, lng: null}
   }
-  // componentDidMount(){
-  //   Geocode.fromAddress(this.state.address).then(
-  //     response => {
-  //       const { lat, lng } = response.results[0].geometry.location;
-  //       console.log("************************************************ " + lat, lng);
-  //       this.setState({lat: lat, lng: lng});
-  //     },
-  //     error => {
-  //       console.error(error);
-  //     }
-  //   )
-  // }
-
   catchReturnForLocationSearch = (e)=>{
     if (e.charCode == 13) {
         // alert('Enter... (KeyPress, use charCode)' + e.target.value);
@@ -118,21 +94,18 @@ class SearchPage extends Component {
       Geocode.fromAddress(e.target.value).then(
       response => {
         const { lat, lng } = response.results[0].geometry.location;
-        console.log("************************************************ " + lat, lng);
         this.setState({address: newAddress, lat: lat, lng: lng})
         },
       error => {
         console.error("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^: " + error);
       }
-    )
+      )
       e.target.value = '';
-      }
+    }
   }
 
   useMyLocationButtonPress = ()=>{
     navigator.geolocation.getCurrentPosition((loc) => {
-      // alert('The location in lat lon format is: [' + loc.coords.latitude + ',' + loc.coords.longitude + ']');
-      // this.setState({lat: loc.coords.latitude, lng: loc.coords.longitude});
       Geocode.fromLatLng(loc.coords.latitude, loc.coords.longitude).then(
         response => {
           const address = response.results[0].formatted_address;
@@ -174,11 +147,27 @@ class SearchPage extends Component {
             return (
             <div className="FullScreen">
               <div className="LeftSide">
-                {
-                  data.search_restaurants.results.map((r) => {
-                    return <MyCard data={r} />;
-                  })
-                }
+
+              <div className='LeftSideOptions'>
+                    <Button style={{marginTop: '10px'}} onClick = {this.useMyLocationButtonPress}>
+                       <MdLocationOn />
+                       Use my location 
+                    </Button>
+                    <TextField
+                      id="outlined-search"
+                      inputRef={x => this.searchField = x}
+                      label="Search food in your area"
+                      type="search"
+                      className= ''
+                      variant="outlined"
+                      onKeyPress={this.catchReturnForLocationSearch}
+                    />
+              </div>
+              {
+                data.search_restaurants.results.map((r) => {
+                  return <MyCard data={r} />;
+                })
+              }
               </div>
               <div className="RightSide">
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '5px', marginBottom: '5px'}}> 
